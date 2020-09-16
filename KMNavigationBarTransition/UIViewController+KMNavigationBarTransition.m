@@ -126,7 +126,12 @@
         return;
     }
     [self km_adjustScrollViewContentOffsetIfNeeded];
-    UINavigationBar *bar = [[UINavigationBar alloc] init];
+    UINavigationBar *bar = nil;
+    if (@available(iOS 14, *)) {
+        bar = [[NSBundle bundleForClass:NSClassFromString(@"KMWeakObjectContainer")] loadNibNamed:@"KMNavigationBar" owner:nil options:nil].firstObject;
+    } else {
+        bar = [[UINavigationBar alloc] init];
+    }
     bar.km_isFakeBar = YES;
     bar.barStyle = self.navigationController.navigationBar.barStyle;
     if (bar.translucent != self.navigationController.navigationBar.translucent) {
